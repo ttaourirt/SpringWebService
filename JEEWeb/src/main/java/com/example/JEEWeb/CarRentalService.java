@@ -3,6 +3,7 @@ package com.example.JEEWeb;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
@@ -14,11 +15,22 @@ public class CarRentalService {
 
     private List<Car> cars = new ArrayList<Car>();
 
-    public CarRentalService() {
+    CarRepository carRepository;
+    @Autowired
+    public CarRentalService(CarRepository carRepository){
+        //System.out.println(carRepository);
+        this.carRepository = carRepository;
+
         cars.add(new Car("11AA22", "NIO", 110000));
         cars.add(new Car("33BB44", "Tesla", 45222));
         cars.add(new Car("32DD66", "Toyota", 4900));
         cars.add(new Car("77SS88", "Peugeot", 12000));
+    }
+
+    @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Car not found")  // 404
+    @ExceptionHandler(Exception.class)
+    public void erreur() {
+        System.out.println("erreur page non trouve");
     }
 
     @GetMapping("/cars")
@@ -27,13 +39,14 @@ public class CarRentalService {
     }
 
     @PostMapping("/cars")
-    public void addCar(@RequestBody Car car) throws Exception{
-        System.out.println(car);
-        cars.add(car);
+    public void addCar(@RequestBody Car car) throws Exception {
+        carRepository.save(car);
     }
 
-    @GetMapping("/cars/{plateNumber}")
-    public Car getCar(@PathVariable(value = "plateNumber") String immatriculation){
+    @RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Car getCar(@PathVariable(value = "plateNumber") String immatriculation) throws Exception {
         System.out.println(immatriculation);
         // parcourir avec une boucle le tableau des voitures à la recherche de la voiture qui a la plaque immatriculation
         for(Car car: cars){
@@ -41,18 +54,40 @@ public class CarRentalService {
                 return car;
             }
         }
-        return null;
+        throw new Exception();
     }
 
-    @GetMapping("/cars/{brand}")
-    public Car getCar(@PathVariable(value = "brand") String marque){
+    /**
+     *
+     * @param {plateNumber}
+     */
+
+    @RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCar(@PathVariable(value = "plateNumber") String immatriculation) throws Exception {
+
+        System.out.println("the car immatriculated "+ immatriculation +" has been deleted");
         for(Car car: cars){
-            if(car.getBrand().equals(marque)){
-                return car;
+            if(car.getPlateNumber().equals(immatriculation)){
+                return;
             }
+            throw new Exception();
         }
-        return null;
     }
+
+//    @RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
+//    @ResponseStatus(HttpStatus.OK)
+//    public void rent(@PathVariable("plateNumber") String plateNumber) throws Exception{
+//    }
+//    @RequestMapping(value = "/voiture/{plateNumber}", method = RequestMethod.PUT)
+//    @ResponseStatus(HttpStatus.OK)
+//    public void rentAndGetBack(@PathVariable("plateNumber") String plateNumber,
+//                   @RequestParam(value="rent", required = true)boolean rent) throws Exception{
+//    }
+//    @RequestMapping(value = "/cars/{plateNumber}", method = RequestMethod.PUT)
+//    public void rent(@PathVariable("plateNumber") String plateNumber, @RequestParam(value="rent",
+//            required = true)boolean rent, @RequestBody Dates dates){
+//    }
 
 
 }

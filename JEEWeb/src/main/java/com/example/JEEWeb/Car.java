@@ -1,10 +1,18 @@
 package com.example.JEEWeb;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Car {
 
     private String plateNumber;
     private String brand;
     private int price;
+    private Integer id;
+    long key;
 
     public Car() {
         super();
@@ -44,6 +52,15 @@ public class Car {
     @Override
     public String toString() {
         return "Car [plateNumber=" + plateNumber + ", brand=" + brand + ", price=" + price + "]";
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long getKey() {
+        return key;
+    }
+    public void setKey(long key) {
+        this.key = key;
     }
 
 }

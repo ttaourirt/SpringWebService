@@ -9,4 +9,5 @@ public class AppRest {
     public String hello() {
         return "hello";
     }
+
 }

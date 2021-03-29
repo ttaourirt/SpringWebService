@@ -17,13 +17,7 @@ public class JeeWebApplication {
 
 		SpringApplication.run(JeeWebApplication.class, args);
 
-		RestTemplate restTemplate = new RestTemplate();
 
-		HttpEntity<Car> request = new HttpEntity<>(new Car("55DD77", "Mazerati", 2000));
-		restTemplate.postForObject("http://localhost:8080/cars", request, Car.class);
-
-		List cars = restTemplate.getForObject("http://localhost:8080/cars", List.class);
-		log.info(cars.toString());
 
 
 

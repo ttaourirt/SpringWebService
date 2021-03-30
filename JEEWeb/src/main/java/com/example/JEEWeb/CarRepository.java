@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CarRepository extends CrudRepository <Car, Long> {
 
-    List<Car> findByName(String name);
+   List<Car> findByPlateNumber(String platenumber);
 }

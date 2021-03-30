@@ -7,12 +7,15 @@ public class Car extends Vehicule{
 
     private int numberOfSeats;
 
+
     public Car() {
+        super();
     }
 
-    public Car(int numberOfSeats) {
-        super();
+    public Car(String platenumber, String brand, int price,int numberOfSeats ) {
+        super(platenumber, price, brand);
         this.numberOfSeats = numberOfSeats;
+
     }
 
     public int getNumberOfSeats() {

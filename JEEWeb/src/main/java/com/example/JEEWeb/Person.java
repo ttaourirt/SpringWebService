@@ -24,7 +24,6 @@ public class Person {
     }
 
     @OneToMany(mappedBy="person", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     public List<Rent> getRents() {
         return rents;
     }

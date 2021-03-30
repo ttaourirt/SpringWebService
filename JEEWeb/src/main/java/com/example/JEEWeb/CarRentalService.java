@@ -18,10 +18,10 @@ public class CarRentalService {
         //System.out.println(carRepository);
         this.carRepository = carRepository;
 
-//        carRepository.save(new Car("11AA22", "NIO", 110000));
-//        carRepository.save(new Car("33BB44", "Tesla", 45222));
-//        carRepository.save(new Car("32DD66", "Toyota", 4900));
-//        carRepository.save(new Car("77SS88", "Peugeot", 12000));
+        carRepository.save(new Car("11AA22", "NIO", 110000, 4));
+        carRepository.save(new Car("33BB44", "Tesla", 45222, 5));
+        carRepository.save(new Car("32DD66", "Toyota", 4900, 4));
+        carRepository.save(new Car("77SS88", "Peugeot", 12000,2));
     }
 
     @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="Car not found")  // 404

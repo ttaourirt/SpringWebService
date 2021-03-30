@@ -1,5 +1,7 @@
 package com.example.JEEWeb;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -26,6 +28,7 @@ public class Rent {
     }
 
     @ManyToOne
+    @JsonIgnore
     public Person getPerson() {
         return person;
     }
@@ -35,6 +38,7 @@ public class Rent {
     }
 
     @ManyToOne
+    @JsonIgnore
     public Vehicule getVehicule() {
        return vehicule;
     }
